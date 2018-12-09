@@ -1,0 +1,7 @@
+
+
+<div *ngFor="let item of pedido.itens">
+  <app-item-de-pedido-form [itemDePedido]="item"></app-item-de-pedido-form>
+  <div (click)="removerItem(item)"><a>Remover</a></div>
+</div>
+<div (click)="adicionarItem()"><a>Adicionar</a></div>
