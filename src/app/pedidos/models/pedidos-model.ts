@@ -4,6 +4,10 @@ export class Pedido {
   id: number;
   itens: ItemDePedido[];
   idCliente: Number;
+
+  constructor() {
+    this.itens = [new ItemDePedido()];
+  }
 }
 
 export class ItemDePedido {

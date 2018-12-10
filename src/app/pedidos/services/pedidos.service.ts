@@ -3,7 +3,7 @@ import { HttpService } from '../../services/http.service';
 import { Observable, BehaviorSubject, of, from } from 'rxjs';
 import { Cliente } from '../models/cliente.model';
 import { Produto } from '../models/produto.model';
-import { Pedido, Rentabilidade } from '../models/pedidos-model';
+import { Pedido, Rentabilidade, ItemDePedido } from '../models/pedidos-model';
 import { map, concatMap, delay, mapTo } from 'rxjs/operators';
 import { ValorMonetario } from '../models/valor-monetario';
 
@@ -66,19 +66,34 @@ export class PedidosService {
     return this.produtosSub.asObservable();
   }
 
+  getPedido(idPedido: Number): Observable<Pedido> {
+    // return this.httpService.getObs('prodidos', { id: idPedido });
+    const pedido = new Pedido();
+    const item = new ItemDePedido();
+    item.id = 1;
+    item.idProduto = 1;
+    item.precoUnitario = new ValorMonetario(11);
+    item.quantidade = 2;
+    pedido.id = 1;
+    pedido.idCliente = 1;
+    pedido.itens = [item];
+
+    return of('delay').pipe(delay(2000), mapTo(pedido));
+  }
+
   calcularRentablidade(precoSugerido: ValorMonetario, precoUnitario: string): Observable<Rentabilidade> {
     // return this.httpService.getObs('rentabilidade', { precoSugerido: precoSugerido, precoUnitario: precoUnitario }).pipe(
     //   map((r) => Rentabilidade[Rentabilidade[r.id]])
     // );
 
-    return of('delay').pipe(delay(5000), mapTo(Rentabilidade.Boa));
+    return of('delay').pipe(delay(2000), mapTo(Rentabilidade.Boa));
 
   }
-  salvarPedido(pedido: Pedido) {
+  salvarPedido(pedido: Pedido): Observable<Pedido> {
     if (pedido.id > 0) {
-      this.alterarPedido(pedido);
+      return this.alterarPedido(pedido);
     } else {
-      this.adicionarPedido(pedido);
+      return this.adicionarPedido(pedido);
     }
   }
 

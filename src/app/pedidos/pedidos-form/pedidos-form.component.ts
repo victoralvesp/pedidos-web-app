@@ -1,17 +1,20 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit, AfterContentChecked } from '@angular/core';
+import { Component, OnInit, Input, AfterContentChecked } from '@angular/core';
 import { ItemDePedido, Pedido } from '../models/pedidos-model';
 import { PedidosService } from '../services/pedidos.service';
 import { Cliente } from '../models/cliente.model';
 import { Produto } from '../models/produto.model';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ValorMonetario } from '../models/valor-monetario';
+import { rentabilidadeValidator } from '../../auxiliar/rentabilidadeValidator';
+import { quantidadeValidator } from '../../auxiliar/quantidadeValidator';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-pedidos-form',
   templateUrl: './pedidos-form.component.html',
   styleUrls: ['./pedidos-form.component.scss']
 })
-export class PedidosFormComponent implements OnInit, AfterViewInit, AfterContentChecked {
+export class PedidosFormComponent implements OnInit, AfterContentChecked {
 
   @Input() pedido: Pedido;
   loadingClientes: boolean;
@@ -21,14 +24,18 @@ export class PedidosFormComponent implements OnInit, AfterViewInit, AfterContent
   pedidosForm: FormGroup;
   clienteSelecionado: Cliente;
   invalidControls: any[];
+  salvando = false;
 
 
-  constructor(private _fb: FormBuilder, private _pedidosService: PedidosService) { }
+  constructor(private _fb: FormBuilder, private _pedidosService: PedidosService,
+              private _router: Router, private _route: ActivatedRoute) { }
 
   ngOnInit() {
     this._pedidosService.loadingClientes$.subscribe(loading => this.loadingClientes = loading);
     this._pedidosService.clientes$.subscribe(clientes => this.carregarListaDeClientes(clientes));
     this.pedidosForm = this.createForm();
+
+    this.checaEAtualizaFormulario();
   }
 
   createForm(): FormGroup {
@@ -44,35 +51,25 @@ export class PedidosFormComponent implements OnInit, AfterViewInit, AfterContent
       produto: this._fb.control(undefined, [Validators.required]),
       precoUnitario: this._fb.control('', [Validators.required]),
       quantidade: this._fb.control('', [Validators.required]),
-      rentabilidade: this._fb.control('-')
-    });
+      multiplo: this._fb.control(''),
+      rentabilidade: this._fb.control('', rentabilidadeValidator())
+    }, { validator: quantidadeValidator });
   }
 
-  ngAfterViewInit() {
+  private checaEAtualizaFormulario() {
     if (this.pedido.id > 0) {
       this.atualizaForm();
     }
   }
-  public findInvalidControls() {
-    const invalid = [];
-    const controls = this.pedidosForm.controls;
-    for (const name in controls) {
-        if (controls[name].invalid) {
-            invalid.push(name);
-        }
-    }
-    return invalid;
-}
 
   ngAfterContentChecked() {
     this.pedidosForm.updateValueAndValidity();
-    this.invalidControls = this.findInvalidControls();
   }
 
   atualizaForm(): void {
     this.pedidosForm.patchValue({
       cliente: this.clienteSelecionado.id,
-      itens: this.pedido.itens
+      itens: this.pedido.itens.map(item => this.converteParaFormDeItem(item))
     });
   }
 
@@ -102,12 +99,18 @@ export class PedidosFormComponent implements OnInit, AfterViewInit, AfterContent
   }
 
   salvarPedido() {
-
     const pedidoValue = this.pedidosForm.value;
 
     this.pedido.idCliente = pedidoValue.cliente;
     this.pedido.itens = pedidoValue.itens.map(item =>  this.converteParaItem(item));
 
+    this.salvando = true;
+    this._pedidosService.salvarPedido(this.pedido).subscribe(() => {
+      this.salvando = false;
+      this.pedido = new Pedido();
+      this.pedidosForm = this.createForm();
+      this._router.navigate([`pedidos`], { relativeTo: this._route.root });
+    });
   }
 
   converteParaItem(itemFormValue: any): any {
@@ -124,7 +127,7 @@ export class PedidosFormComponent implements OnInit, AfterViewInit, AfterContent
   converteParaFormDeItem(item: ItemDePedido): any {
     return {
       id: item.id,
-      produto: item.idProduto,
+      idProduto: item.idProduto,
       precoUnitario: item.precoUnitario.valor,
       quantidade: item.quantidade,
       rentabilidade: item.rentabilidade

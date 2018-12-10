@@ -7,7 +7,7 @@ import { AlterarPedidoComponent } from './alterar-pedido/alterar-pedido.componen
 
 const childRoutes: Routes = [
     { path: '', component: NovoPedidoComponent },
-    { path: '{id}', component: AlterarPedidoComponent }
+    { path: ':id', component: AlterarPedidoComponent }
 ];
 
 const routes: Routes = [

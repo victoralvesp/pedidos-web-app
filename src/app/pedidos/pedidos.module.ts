@@ -10,7 +10,10 @@ import { ItemDePedidoFormComponent } from './item-de-pedido-form/item-de-pedido-
 import { PedidosService } from './services/pedidos.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SelectComponent } from './select/select.component';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { InputTextModule } from 'primeng/inputtext';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { BotaoAlterarComponent } from './botao-alterar/botao-alterar.component';
 
 @NgModule({
   declarations: [
@@ -19,14 +22,17 @@ import { NgSelectModule } from '@ng-select/ng-select';
      NovoPedidoComponent,
      AlterarPedidoComponent,
      ItemDePedidoFormComponent,
-     SelectComponent
+     SelectComponent,
+     BotaoAlterarComponent
     ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     PedidosRoutingModule,
-    NgSelectModule
+    NgSelectModule,
+    CurrencyMaskModule,
+    InputTextModule
   ],
   providers: [
     PedidosService

@@ -1,3 +1,4 @@
-<p>
-  alterar-pedido works!
-</p>
+<h4>Emitir novo pedido</h4>
+<div *ngIf="!pedidoCarregado" class="loading-animation">Carregando</div>
+<app-pedidos-form *ngIf="pedidoCarregado" [pedido]="pedido"></app-pedidos-form>
+

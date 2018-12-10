@@ -1,3 +1,4 @@
+
 <div [formGroup]="itemForm">
   <div class="form-group col-xs-6">
     <label>Produto</label>
@@ -12,26 +13,34 @@
     </small>
   </div>
   <!-- (after-if)="configuraChecagemDeRentabilidade()" -->
-  <div [hidden]="!produtoSelecionado" class="form-group col-xs-6">
-    <label>Preço Unitário</label>
-    <span class="ui-inputgroup-addon">R$</span>
-    <input type="text" class="form-control" formControlName="precoUnitario" #inputPreco>
-    <small [hidden]="itemForm.controls['precoUnitario'].valid || itemForm.controls['precoUnitario'].untouched" class="text-danger">
-      Preço unitário é obrigatório
-    </small>
+  <div [hidden]="!produtoSelecionado" class="grupo">
+    <div class="ui-grid-col-3">
+      <label>Preço Unitário</label>
+    </div>
+    <div class="ui-grid-col-6">
+      <div class="ui-inputgroup">
+        <span class="ui-inputgroup-addon">R$</span>
+        <input currencyMask class="form-control" formControlName="precoUnitario"
+               placeholder="Preço unitário" [options]="{ prefix: ' ', thousands: '.', decimal: ',', allowNegative: 'false' }"
+               pInputText
+               #inputPreco>
+      </div>
+      <small [hidden]="itemForm.controls['precoUnitario'].valid || itemForm.controls['precoUnitario'].untouched" class="text-danger">
+        Preço unitário é obrigatório
+      </small>
+    </div>
   </div>
   <div *ngIf="produtoSelecionado"
         >
-    <div class="form-group col-xs-6">
+    <div class="grupo">
       <label>Quantidade</label>
       <input type="number" class="form-control" formControlName="quantidade">
-      <small [hidden]="itemForm.controls['quantidade'].valid || itemForm.controls['quantidade'].untouched" class="text-danger">
-        Quantidade é obrigatório e deve ser múltiplo de {{ produtoSelecionado.multiplo }}
+      <small [hidden]="(itemForm.errors && itemForm.errors['quantidadeInvalida']) || itemForm.controls['quantidade'].untouched" class="text-danger">
+        {{ mensagemQuantidadeInvalida }}
       </small>
     </div>
-    <div class="form-group col-xs-6"
-    *ngIf="itemForm.controls['precoUnitario'].valid && (rentabilidadeCarregada | async)"
-    >
+    <div class="grupo"
+        *ngIf="itemForm.controls['precoUnitario'].valid && (rentabilidadeCarregada | async)">
         <label>Rentabilidade</label>
         <input type="text" disabled="true" class="form-control" formControlName="rentabilidade">
         <small [hidden]="itemForm.controls['rentabilidade'].valid" class="text-danger">
@@ -39,8 +48,4 @@
         </small>
       </div>
   </div>
-  <p>
-      Form Status: {{ itemForm.status }}
-      
-  </p>
 </div>

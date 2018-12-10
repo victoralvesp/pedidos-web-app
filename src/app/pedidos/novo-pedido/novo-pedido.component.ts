@@ -13,7 +13,6 @@ export class NovoPedidoComponent implements OnInit {
 
   constructor() {
     this.pedido = new Pedido();
-    this.pedido.itens = [ new ItemDePedido() ];
   }
 
   ngOnInit() {
