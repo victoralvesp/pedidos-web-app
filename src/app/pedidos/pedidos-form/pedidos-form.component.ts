@@ -8,6 +8,7 @@ import { ValorMonetario } from '../models/valor-monetario';
 import { rentabilidadeValidator } from '../../auxiliar/rentabilidadeValidator';
 import { quantidadeValidator } from '../../auxiliar/quantidadeValidator';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MensagemService } from '../mensagem.service';
 
 @Component({
   selector: 'app-pedidos-form',
@@ -28,7 +29,8 @@ export class PedidosFormComponent implements OnInit, AfterContentChecked {
 
 
   constructor(private _fb: FormBuilder, private _pedidosService: PedidosService,
-              private _router: Router, private _route: ActivatedRoute) { }
+              private _router: Router, private _route: ActivatedRoute,
+              private _mensagemService: MensagemService) { }
 
   ngOnInit() {
     this._pedidosService.loadingClientes$.subscribe(loading => this.loadingClientes = loading);
@@ -104,8 +106,13 @@ export class PedidosFormComponent implements OnInit, AfterContentChecked {
     this.pedido.IdCliente = pedidoValue.cliente;
     this.pedido.Itens = pedidoValue.itens.map(item =>  this.converteParaItem(item));
 
+    if (!this.pedido.Id) {
+      this.pedido.Id = 0;
+    }
+
     this.salvando = true;
-    this._pedidosService.salvarPedido(this.pedido).subscribe(() => {
+    this._pedidosService.salvarPedido(this.pedido).subscribe((pedido) => {
+      this._mensagemService.PushPedidoSalvo(pedido.Id);
       this.salvando = false;
       this.pedido = new Pedido();
       this.pedidosForm = this.createForm();
@@ -116,7 +123,7 @@ export class PedidosFormComponent implements OnInit, AfterContentChecked {
   converteParaItem(itemFormValue: any): any {
     const item = new ItemDePedido();
     item.Id = itemFormValue.id;
-    item.IdProduto = itemFormValue.produto;
+    item.IdProduto = itemFormValue.produto.Id;
     item.PrecoUnitario = new ValorMonetario(itemFormValue.precoUnitario);
     item.Quantidade = itemFormValue.quantidade;
     item.Rentabilidade = itemFormValue.rentabilidade;

@@ -1,2 +1,7 @@
 <h1>Emissão de Pedidos</h1>
 <router-outlet></router-outlet>
+<div class="mensagem">
+  <small *ngIf="( mensagem | async ) && ( mensagem | async ) != null">
+    Pedido salvo com id {{ ( mensagem | async ) }}
+  </small>
+</div>

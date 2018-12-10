@@ -6,7 +6,9 @@ export class Pedido {
   IdCliente: Number;
 
   constructor() {
+    this.Id = 0;
     this.Itens = [new ItemDePedido()];
+    this.IdCliente = 0;
   }
 }
 
@@ -16,6 +18,14 @@ export class ItemDePedido {
   PrecoUnitario: ValorMonetario;
   Quantidade: number;
   Rentabilidade: Rentabilidade;
+
+  constructor() {
+    this.Id = 0;
+    this.IdProduto = 0;
+    this.PrecoUnitario = null;
+    this.Quantidade = 0;
+    this.Rentabilidade = null;
+  }
 }
 
 export enum Rentabilidade {

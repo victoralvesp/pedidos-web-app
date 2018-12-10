@@ -14,6 +14,7 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { InputTextModule } from 'primeng/inputtext';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BotaoAlterarComponent } from './botao-alterar/botao-alterar.component';
+import { MensagemService } from './mensagem.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { BotaoAlterarComponent } from './botao-alterar/botao-alterar.component';
     InputTextModule
   ],
   providers: [
-    PedidosService
+    PedidosService,
+    MensagemService
   ]
 })
 export class PedidosModule { }

@@ -50,12 +50,21 @@ export class PedidosService {
     const precoUnitarioString = this.converteEmString(precoUnitario);
     return this.httpService.getObs('pedidos/rentabilidade',
                     { precoSugerido: precoSugeridoString, precoUnitario: precoUnitarioString }).pipe(
-      map((r) => Rentabilidade[Rentabilidade[r.id]])
+      map((r) => {
+        switch (r.Id) {
+          case 'OTIMA':
+            return Rentabilidade.Otima;
+          case 'BOA':
+            return Rentabilidade.Boa;
+          case 'RUIM':
+            return Rentabilidade.Ruim;
+        }
+      })
     );
 
   }
   private converteEmString(valorMonetario: ValorMonetario) {
-    return `"${valorMonetario.Valor} ${valorMonetario.Moeda.Id}"`;
+    return `${valorMonetario.Valor} ${valorMonetario.Moeda.Id}`;
   }
 
   salvarPedido(pedido: Pedido): Observable<Pedido> {
