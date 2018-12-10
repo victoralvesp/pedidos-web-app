@@ -23,6 +23,7 @@ export class PedidosFormComponent implements OnInit, AfterContentChecked {
   listaDeClientes: Cliente[];
   listaDeProdutos: Produto[];
   pedidosForm: FormGroup;
+  pedidosFormItens: FormArray;
   clienteSelecionado: Cliente;
   invalidControls: any[];
   salvando = false;
@@ -30,12 +31,15 @@ export class PedidosFormComponent implements OnInit, AfterContentChecked {
 
   constructor(private _fb: FormBuilder, private _pedidosService: PedidosService,
               private _router: Router, private _route: ActivatedRoute,
-              private _mensagemService: MensagemService) { }
+              private _mensagemService: MensagemService) {
+                this.pedidosFormItens = this._fb.array([]);
+              }
 
   ngOnInit() {
     this._pedidosService.loadingClientes$.subscribe(loading => this.loadingClientes = loading);
     this._pedidosService.clientes$.subscribe(clientes => this.carregarListaDeClientes(clientes));
     this.pedidosForm = this.createForm();
+    this.pedidosFormItens = <FormArray>this.pedidosForm.controls['itens'];
 
     this.checaEAtualizaFormulario();
   }
@@ -66,6 +70,7 @@ export class PedidosFormComponent implements OnInit, AfterContentChecked {
 
   ngAfterContentChecked() {
     this.pedidosForm.updateValueAndValidity();
+    this.pedidosFormItens.updateValueAndValidity();
   }
 
   atualizaForm(): void {

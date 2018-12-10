@@ -9,7 +9,6 @@ import { AlterarPedidoComponent } from './alterar-pedido/alterar-pedido.componen
 import { ItemDePedidoFormComponent } from './item-de-pedido-form/item-de-pedido-form.component';
 import { PedidosService } from './services/pedidos.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SelectComponent } from './select/select.component';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { InputTextModule } from 'primeng/inputtext';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -23,7 +22,6 @@ import { MensagemService } from './mensagem.service';
      NovoPedidoComponent,
      AlterarPedidoComponent,
      ItemDePedidoFormComponent,
-     SelectComponent,
      BotaoAlterarComponent
     ],
   imports: [

@@ -35,14 +35,24 @@ body {
 	border: 1px solid transparent;
 	&:focus {
 		outline: none;
-	}
+  }
+  &:disabled{
+    background: #B9E0D6;
+    border-color: #fff
+  }
 }
+
+
 .btn-primary {
 	@include button-style(#3F51B5, #fff, #3F51B5, $custom-hover: true);
 	&:hover {
 		background-color: #5C6BC0;
 		border-color: #5C6BC0;
-	}
+  }
+  &:disabled{
+    background: #B9E0D6;
+    border-color: #fff
+  }
 }
 div{
   small.mensagem-alerta {
