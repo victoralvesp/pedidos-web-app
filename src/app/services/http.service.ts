@@ -12,7 +12,7 @@ import { isNull } from 'util';
 // CONSTANT
 @Injectable()
 export class HttpService {
-private appConfig = new AppSettings('dev-gateway');
+private appConfig = new AppSettings('local');
 private tokenCadastroExterno;
 private tokenRemuneracao;
 private BASE_URL  = this.appConfig.url_base;
