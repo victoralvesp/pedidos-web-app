@@ -7,7 +7,7 @@ export interface Moeda {
 export class ValorMonetario {
   moeda: Moeda;
   valor: number;
-  constructor(moeda: Moeda, valor: number) {
+  constructor(valor: number, moeda?: Moeda) {
     if (moeda) {
         this.moeda = moeda;
     } else {
@@ -22,4 +22,4 @@ export class ValorMonetario {
 }
 
 const REAL = { unidade: '', name: '', id: 'BRL' };
-export const VALOR_MONETARIO_NULO = new ValorMonetario(REAL, 0);
+export const VALOR_MONETARIO_NULO = new ValorMonetario(0, REAL);

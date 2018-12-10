@@ -1,7 +1,24 @@
+<form [formGroup]="pedidosForm" (ngSubmit)="salvarPedido()" >
 
+  <ng-select [items]="listaDeClientes"
+              [loading]="loadingClientes"
+              bindLabel="nome"
+              bindValue="id"
+              formControlName="cliente">
 
-<div *ngFor="let item of pedido.itens">
-  <app-item-de-pedido-form [itemDePedido]="item"></app-item-de-pedido-form>
-  <div (click)="removerItem(item)"><a>Remover</a></div>
-</div>
-<div (click)="adicionarItem()"><a>Adicionar</a></div>
+  </ng-select>
+
+  <div *ngFor="let item of pedidosForm.controls.itens.controls; let i = index">
+    <app-item-de-pedido-form [itemForm]="item" [parentForm]="pedidosForm"></app-item-de-pedido-form>
+    <span *ngIf="pedidosForm.controls.itens.controls.length > 1">
+      <div (click)="removerItem(i)"><a>Remover</a></div>
+    </span>
+  </div>
+  <div (click)="adicionarItem()"><a>Adicionar</a></div>
+  <button type="submit" [disabled]="!pedidosForm.valid">Submit</button>
+
+  <div>
+      Form Status: {{ pedidosForm.status }}
+      Controls: {{ invalidControls?.length }}
+  </div>
+</form>

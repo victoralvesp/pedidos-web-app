@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, throwError, of } from 'rxjs';
-import { AlertService } from 'ngx-alerts';
+// import { AlertService } from 'ngx-alerts';
 import { map, catchError, tap, retry } from 'rxjs/operators';
 import 'rxjs/operators';
 
@@ -20,9 +20,9 @@ private BASE_URL  = this.appConfig.url_base;
 constructor
 (
   private http: HttpClient,
-  private router: Router,
-  private alertService: AlertService
-) {}
+  private router: Router
+  ) {}
+// private alertService: AlertService
 
 prepareUrl(endpoint, data: Array<any> = null): string {
   let url = `${this.BASE_URL}${endpoint}`;
@@ -110,7 +110,7 @@ private responseHandler(response: any) {
 
   if (response.status === 401 && response.object === 403) {
     if (!isNull(response.message)) {
-      alert(response.message);
+      // alert(response.message);
   }
   } else {
     return response;

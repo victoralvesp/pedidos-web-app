@@ -8,6 +8,9 @@ import { NovoPedidoComponent } from './novo-pedido/novo-pedido.component';
 import { AlterarPedidoComponent } from './alterar-pedido/alterar-pedido.component';
 import { ItemDePedidoFormComponent } from './item-de-pedido-form/item-de-pedido-form.component';
 import { PedidosService } from './services/pedidos.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SelectComponent } from './select/select.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -15,11 +18,15 @@ import { PedidosService } from './services/pedidos.service';
      PedidosFormComponent,
      NovoPedidoComponent,
      AlterarPedidoComponent,
-     ItemDePedidoFormComponent
+     ItemDePedidoFormComponent,
+     SelectComponent
     ],
   imports: [
     CommonModule,
-    PedidosRoutingModule
+    FormsModule,
+    ReactiveFormsModule,
+    PedidosRoutingModule,
+    NgSelectModule
   ],
   providers: [
     PedidosService

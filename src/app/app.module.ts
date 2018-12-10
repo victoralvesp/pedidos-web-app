@@ -2,29 +2,30 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { AlertModule } from 'ngx-alerts';
+// import { AlertModule, AlertService } from 'ngx-alerts';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpService } from './services/http.service';
-import { HttpClient } from '@angular/common/http';
-import { SelectComponent } from './select/select.component';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SelectComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AlertModule,
+    // AlertModule,
     FormsModule,
-    NgSelectModule
+    NgSelectModule,
+    HttpClientModule
   ],
   providers: [
     HttpService,
-    HttpClient
+    HttpClient,
+    // AlertService
   ],
   bootstrap: [AppComponent]
 })

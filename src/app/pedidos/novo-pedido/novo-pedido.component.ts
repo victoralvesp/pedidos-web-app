@@ -12,7 +12,6 @@ export class NovoPedidoComponent implements OnInit {
 
 
   constructor() {
-    console.log("Teste!!!");
     this.pedido = new Pedido();
     this.pedido.itens = [ new ItemDePedido() ];
   }
