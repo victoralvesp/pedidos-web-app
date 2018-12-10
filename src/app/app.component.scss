@@ -5,3 +5,20 @@ input, textarea, select, button {
      -moz-box-sizing: border-box; /* For legacy (Firefox <29) Gecko based browsers */
           box-sizing: border-box;
 }
+
+* {
+  font-family: Arial, Helvetica, sans-serif
+}
+
+.page-layout {
+  margin: 0;
+  div {
+    background-color: #cce4f7;
+    text-align: center;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    border-radius: 4px;
+    border: 1px solid #ffffff;
+  }
+}
+

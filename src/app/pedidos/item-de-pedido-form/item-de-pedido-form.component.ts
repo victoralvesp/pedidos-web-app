@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterContentChecked } from '@angular/core';
 import { ItemDePedido, Rentabilidade } from '../models/pedidos-model';
 import { FormGroup } from '@angular/forms';
 import { PedidosService } from '../services/pedidos.service';
@@ -12,7 +12,7 @@ import { ValorMonetario } from '../models/valor-monetario';
   templateUrl: './item-de-pedido-form.component.html',
   styleUrls: ['./item-de-pedido-form.component.scss']
 })
-export class ItemDePedidoFormComponent implements OnInit, AfterViewInit {
+export class ItemDePedidoFormComponent implements OnInit {
 
   MENSAGEM_QUANTIDADE_INVALIDA_PADRAO = 'Quantidade é obrigatória';
   @Input() itemForm: FormGroup;
@@ -78,6 +78,7 @@ export class ItemDePedidoFormComponent implements OnInit, AfterViewInit {
     this.itemForm.updateValueAndValidity();
 
   }
+
   private atualizaModelo() {
     this.item = this.converteParaItem(this.itemForm.value);
   }

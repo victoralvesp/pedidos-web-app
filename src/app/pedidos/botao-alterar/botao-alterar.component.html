@@ -1,5 +1,11 @@
-<button (click)="acao()">Alterar Pedido</button>
-<div *ngIf="formHabilitado">
-  <label>Produto</label>
-  <input type="number" class="form-control" #idProduto>
+<div class="grid">
+  <div *ngIf="formHabilitado">
+    <input type="number" placeholder="Número do pedido" class="form-control" #idProduto>
+    <button class="btn btn-primary" (click)="acao()">
+        ->
+    </button>
+  </div>
+  <button class="btn" (click)="acao()" *ngIf="!formHabilitado">
+    Alterar Pedido
+  </button>
 </div>

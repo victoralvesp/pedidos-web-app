@@ -1,20 +1,33 @@
-<app-botao-alterar></app-botao-alterar>
-<form [formGroup]="pedidosForm" (ngSubmit)="salvarPedido()" >
-
-  <ng-select [items]="listaDeClientes"
-              [loading]="loadingClientes"
-              bindLabel="nome"
-              bindValue="id"
-              formControlName="cliente">
-
-  </ng-select>
-
-  <div *ngFor="let item of pedidosForm.controls['itens'].controls; let i = index">
-    <app-item-de-pedido-form [itemForm]="item"></app-item-de-pedido-form>
-    <span *ngIf="pedidosForm.controls['itens'].controls.length > 1">
-      <div (click)="removerItem(i)"><a>Remover</a></div>
-    </span>
-  </div>
-  <div (click)="adicionarItem()"><a>Adicionar</a></div>
-  <button type="submit" [disabled]="!pedidosForm.valid || salvando">Submit</button>
-</form>
+<div class="page-layout input-wrapper">
+  <app-botao-alterar></app-botao-alterar>
+  <form [formGroup]="pedidosForm" (ngSubmit)="salvarPedido()" >
+    <label for="cliente">Cliente</label>
+    <ng-select  [items]="listaDeClientes"
+                [loading]="loadingClientes"
+                bindLabel="nome"
+                bindValue="id"
+                id="cliente"
+                placeholder="Selecione o cliente"
+                formControlName="cliente">
+                <ng-template ng-loadingtext-tmp let-searchTerm="searchTerm">
+                    <div class="ng-option disabled">
+                        Carregando...
+                    </div>
+                </ng-template>
+    </ng-select>
+    <small [hidden]="pedidosForm.controls['cliente'].valid || pedidosForm.controls['cliente'].untouched "
+           class="mensagem-alerta">
+        Cliente é obrigatório
+    </small>
+    <div *ngFor="let item of pedidosForm.controls['itens'].controls; let i = index">
+      <app-item-de-pedido-form [itemForm]="item"></app-item-de-pedido-form>
+      <span *ngIf="pedidosForm.controls['itens'].controls.length > 1">
+        <div (click)="removerItem(i)"><a>Remover</a></div>
+      </span>
+    </div>
+    <div>
+      <button class="btn" (click)="adicionarItem()"><a>Adicionar</a></button>
+    </div>
+    <button class="btn btn-primary" type="submit" [disabled]="!pedidosForm.valid || salvando">Salvar</button>
+  </form>
+</div>

@@ -25,10 +25,10 @@ export class PedidosService {
 
 
 
-  private clientesSub = new BehaviorSubject<Cliente[]>([this.MockCliente]);
+  private clientesSub = new BehaviorSubject<Cliente[]>([]);
   clientes$ = this.clientesSub.asObservable();
   loadingClientes$ = new BehaviorSubject<boolean>(false);
-  private produtosSub = new BehaviorSubject<Produto[]>([this.MockProduto]);
+  private produtosSub = new BehaviorSubject<Produto[]>([]);
   produtos$ = this.produtosSub.asObservable();
   loadingProdutos$ = new BehaviorSubject<boolean>(false);
 

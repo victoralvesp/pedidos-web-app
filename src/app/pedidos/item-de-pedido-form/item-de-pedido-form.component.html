@@ -6,46 +6,53 @@
                 [loading]="loadingProdutos"
                 bindLabel="nome"
                 [(ngModel)]="produtoSelecionado"
+                placeholder="Selecione o produto"
                 formControlName="produto">
+                <ng-template ng-loadingtext-tmp let-searchTerm="searchTerm">
+                    <div class="ng-option disabled">
+                        Carregando...
+                    </div>
+                </ng-template>
     </ng-select>
-    <small [hidden]="itemForm.controls['produto'].valid || itemForm.controls['produto'].untouched " class="text-danger">
+    <small [hidden]="itemForm.controls['produto'].valid || itemForm.controls['produto'].untouched " class="mensagem-alerta">
         Produto é obrigatório
     </small>
   </div>
   <!-- (after-if)="configuraChecagemDeRentabilidade()" -->
-  <div [hidden]="!produtoSelecionado" class="grupo">
-    <div class="ui-grid-col-3">
-      <label>Preço Unitário</label>
-    </div>
-    <div class="ui-grid-col-6">
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon">R$</span>
-        <input currencyMask class="form-control" formControlName="precoUnitario"
-               placeholder="Preço unitário" [options]="{ prefix: ' ', thousands: '.', decimal: ',', allowNegative: 'false' }"
-               pInputText
-               #inputPreco>
-      </div>
-      <small [hidden]="itemForm.controls['precoUnitario'].valid || itemForm.controls['precoUnitario'].untouched" class="text-danger">
-        Preço unitário é obrigatório
-      </small>
-    </div>
-  </div>
-  <div *ngIf="produtoSelecionado"
-        >
-    <div class="grupo">
-      <label>Quantidade</label>
-      <input type="number" class="form-control" formControlName="quantidade">
-      <small [hidden]="(itemForm.errors && itemForm.errors['quantidadeInvalida']) || itemForm.controls['quantidade'].untouched" class="text-danger">
-        {{ mensagemQuantidadeInvalida }}
-      </small>
-    </div>
-    <div class="grupo"
-        *ngIf="itemForm.controls['precoUnitario'].valid && (rentabilidadeCarregada | async)">
-        <label>Rentabilidade</label>
-        <input type="text" disabled="true" class="form-control" formControlName="rentabilidade">
-        <small [hidden]="itemForm.controls['rentabilidade'].valid" class="text-danger">
-          Rentabilidade deve ser boa ou ótima
+  <div class="grid-grupo-4">
+    <div [hidden]="!produtoSelecionado" class="grupo linha-1">
+      <label for="preco">Preço Unitário</label>
+      <div class="ui-grid-col-6">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon">R$</span>
+          <input currencyMask class="form-control" formControlName="precoUnitario"
+          placeholder="Preço unitário" [options]="{ prefix: ' ', thousands: '.', decimal: ',', allowNegative: 'false' }"
+          pInputText
+          class="balao"
+          id="preco"
+          #inputPreco>
+        </div>
+        <small [hidden]="itemForm.controls['precoUnitario'].valid || itemForm.controls['precoUnitario'].untouched" class="mensagem-alerta">
+          Preço unitário é obrigatório
         </small>
       </div>
+      <div class="grupo">
+        <label for="quantidade">Quantidade</label>
+        <input type="number" id="quantidade" class="form-control balao" formControlName="quantidade">
+        <small [hidden]="!(itemForm.errors && itemForm.errors['quantidadeInvalida']) || itemForm.controls['quantidade'].untouched" class="mensagem-alerta">
+          {{ mensagemQuantidadeInvalida }}
+        </small>
+      </div>
+    </div>
+    <div *ngIf="produtoSelecionado" class="linha-2">
+      <div class="grupo"
+      *ngIf="itemForm.controls['precoUnitario'].valid && (rentabilidadeCarregada | async)">
+      <label for="rentabilidade">Rentabilidade</label>
+      <input type="text" disabled="true" id="rentabilidade" class="form-control balao" formControlName="rentabilidade">
+      <small [hidden]="itemForm.controls['rentabilidade'].valid" class="mensagem-alerta">
+        Rentabilidade deve ser boa ou ótima
+      </small>
+    </div>
   </div>
+</div>
 </div>

@@ -1,1 +1,123 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+
+body {
+	margin: 3em;
+}
+
+@mixin button-style($bg-color: $bg-color, $font-color: $font-color, $border-color: $border-color, $custom-hover: false, $custom-focus: false) {
+	background-color: $bg-color;
+	color: $font-color;
+	border: 1px solid $border-color;
+	@if $custom-hover == true {
+		@content;
+	} @else {
+		&:hover {
+			background-color: darken($bg-color, 10%);
+			border-color: darken($border-color, 10%);
+		}
+	}
+	@if $custom-focus == true {
+		@content;
+	} @else {
+		&:focus {
+			background-color: darken($bg-color, 12%);
+			border-color: darken($border-color, 12%);
+			@content;
+		}
+	}
+}
+
+.btn {
+	padding: 6px 12px;
+	border-radius: 4px;
+	border: 1px solid transparent;
+	&:focus {
+		outline: none;
+	}
+}
+.btn-primary {
+	@include button-style(#3F51B5, #fff, #3F51B5, $custom-hover: true);
+	&:hover {
+		background-color: #5C6BC0;
+		border-color: #5C6BC0;
+	}
+}
+div{
+  small.mensagem-alerta {
+    color: red;
+  }
+}
+
+$slabel-theme: (
+  border: 0,
+  radius: 0,
+  padding: 0,
+  font: inherit,
+  bg: white,
+  label-bg: white,
+  label-color: inherit,
+  error-color: #E82C0C,
+  placeholder-color: #B9E0D6,
+  success-color: #5C832F
+);
+html {
+  box-sizing: border-box;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: inherit;
+  &::after, &::before {
+    box-sizing: inherit;
+  }
+}
+
+// colors
+$red: #e74c3c;
+$orange: #e67e22;
+$green: #2ecc71;
+$blue: #3498db;
+$white: white;
+
+$dark-blue-light: #34495e;
+$dark-blue-heavy: #2c3e50;
+
+.bg-transparent {
+  background-color: transparent !important;
+}
+
+.bg-red {
+  background-color: $red !important;
+}
+
+.bg-orange {
+  background-color: $orange !important;
+}
+
+.bg-green {
+  background-color: $green !important;
+}
+
+// mixins
+%center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin size($w, $h) {
+  width: $w;
+  height: $h;
+}
+
+@mixin font-size($sizeValue: 1.6) {
+  font-size: $sizeValue * 10 + px;
+  font-size: $sizeValue + rem;
+}
+

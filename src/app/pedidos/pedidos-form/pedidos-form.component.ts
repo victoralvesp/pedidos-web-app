@@ -40,7 +40,7 @@ export class PedidosFormComponent implements OnInit, AfterContentChecked {
 
   createForm(): FormGroup {
     return this._fb.group({
-      cliente: this._fb.control('', [Validators.required]),
+      cliente: this._fb.control(undefined, [Validators.required]),
       itens: this._fb.array([this.criaFormItem()], [Validators.required])
     });
   }
