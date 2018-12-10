@@ -1,3 +1,22 @@
 .disabled {
   color: darkgrey;
 }
+
+.input-wrapper {
+    margin: 5% 10%;
+
+}
+
+.botoes {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    button {
+        margin-left: 10px;
+    }
+}
+
+#label-client {
+    margin: 5px 0;
+}

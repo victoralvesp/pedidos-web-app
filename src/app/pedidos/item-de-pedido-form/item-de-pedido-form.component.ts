@@ -37,7 +37,7 @@ export class ItemDePedidoFormComponent implements OnInit {
           precoUnitario: precoUnitarioAUtilizar,
           quantidade: multiplo,
           multiplo: multiplo,
-          idProduto: value.id
+          idProduto: value.Id
         });
 
         this.configuraChecagemDeRentabilidade();
@@ -55,17 +55,17 @@ export class ItemDePedidoFormComponent implements OnInit {
   private configuraMultiploEMensagemDeQuantidade(value: Produto) {
     let multiplo = 1;
     this.mensagemQuantidadeInvalida = this.MENSAGEM_QUANTIDADE_INVALIDA_PADRAO;
-    if (value.multiplo) {
-      multiplo = value.multiplo;
+    if (value.Multiplo) {
+      multiplo = value.Multiplo;
       this.mensagemQuantidadeInvalida = `Quantidade é obrigatória e deve ser múltiplo de ${multiplo}`;
     }
     return multiplo;
   }
 
   private definePrecoAUtilizar(value: Produto) {
-    let preco = value.precoSugerido.valor;
-    if (this.item.id > 0 && this.item.idProduto === value.id) {
-      preco = this.item.precoUnitario.valor;
+    let preco = value.PrecoSugerido.Valor;
+    if (this.item.Id > 0 && this.item.IdProduto === value.Id) {
+      preco = this.item.PrecoUnitario.Valor;
     }
     return preco;
   }
@@ -85,10 +85,10 @@ export class ItemDePedidoFormComponent implements OnInit {
 
   private converteParaItem(itemFormValue: any): any {
     const item = new ItemDePedido();
-    item.id = itemFormValue.id;
-    item.idProduto = itemFormValue.idProduto;
-    item.precoUnitario = new ValorMonetario(itemFormValue.precoUnitario);
-    item.quantidade = itemFormValue.quantidade;
+    item.Id = itemFormValue.id;
+    item.IdProduto = itemFormValue.idProduto;
+    item.PrecoUnitario = new ValorMonetario(itemFormValue.precoUnitario);
+    item.Quantidade = itemFormValue.quantidade;
 
     return item;
   }
@@ -101,17 +101,23 @@ export class ItemDePedidoFormComponent implements OnInit {
                                       });
     const rentObs = eventoPrecoChange.pipe(debounceTime(200), distinctUntilChanged(),
                                            switchMap(() => {
-                                                const precoUnitario = parseFloat(this.inputPreco.nativeElement.value).toFixed(2);
-                                                const precoSugerido = this.produtoSelecionado.precoSugerido;
+                                                const precoUnitario = this.tratarPrecoUnitario();
+                                                const precoSugerido = this.produtoSelecionado.PrecoSugerido;
                                                 return this._pedidosService.calcularRentablidade(precoSugerido, precoUnitario);
                                           }));
     rentObs.subscribe(((rent) => {
       this.rentabilidadeCarregada.next(true);
       this.atualizaFormulario({ rentabilidade: Rentabilidade[rent] });
-      console.log(this.itemForm.controls['precoUnitario'].valid);
-      console.log(this.rentabilidadeCarregada);
     }).bind(this));
 
+  }
+
+  private tratarPrecoUnitario() {
+    const valorEmString: String = this.inputPreco.nativeElement.value;
+    const valorEmCulturaEN = valorEmString.replace(/\./g, '').replace(',', '.');
+    const precoUnitarioValor = +parseFloat(valorEmCulturaEN).toFixed(2);
+    const precoUnitario = new ValorMonetario(precoUnitarioValor);
+    return precoUnitario;
   }
 
   private atualizaFormulario(patch: any) {
@@ -121,9 +127,9 @@ export class ItemDePedidoFormComponent implements OnInit {
 
   private carregarListaDeProdutos(produtos: Produto[]): any {
     this.listaDeProdutos = produtos;
-    if (this.item && this.item.idProduto > 0) {
-      const idProduto = this.item.idProduto;
-      this.produtoSelecionado = produtos.find(prod => prod.id === idProduto);
+    if (this.item && this.item.IdProduto > 0) {
+      const idProduto = this.item.IdProduto;
+      this.produtoSelecionado = produtos.find(prod => prod.Id === idProduto);
     }
   }
 }

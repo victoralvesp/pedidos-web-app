@@ -12,19 +12,6 @@ import { ValorMonetario } from '../models/valor-monetario';
 })
 export class PedidosService {
 
-  MockCliente = <Cliente> {
-    Id: 1,
-    Nome: 'Darti Veider'
-  };
-  MockProduto = <Produto> {
-    Id: 1,
-    Nome: 'Millenium',
-    Multiplo: 2,
-    PrecoSugerido: new ValorMonetario(90)
-  };
-
-
-
   private clientesSub = new BehaviorSubject<Cliente[]>([]);
   clientes$ = this.clientesSub.asObservable();
   loadingClientes$ = new BehaviorSubject<boolean>(false);
@@ -58,12 +45,19 @@ export class PedidosService {
 
   }
 
-  calcularRentablidade(precoSugerido: ValorMonetario, precoUnitario: string): Observable<Rentabilidade> {
-    return this.httpService.getObs('rentabilidade', { precoSugerido: precoSugerido, precoUnitario: precoUnitario }).pipe(
+  calcularRentablidade(precoSugerido: ValorMonetario, precoUnitario: ValorMonetario): Observable<Rentabilidade> {
+    const precoSugeridoString = this.converteEmString(precoSugerido);
+    const precoUnitarioString = this.converteEmString(precoUnitario);
+    return this.httpService.getObs('pedidos/rentabilidade',
+                    { precoSugerido: precoSugeridoString, precoUnitario: precoUnitarioString }).pipe(
       map((r) => Rentabilidade[Rentabilidade[r.id]])
     );
 
   }
+  private converteEmString(valorMonetario: ValorMonetario) {
+    return `"${valorMonetario.Valor} ${valorMonetario.Moeda.Id}"`;
+  }
+
   salvarPedido(pedido: Pedido): Observable<Pedido> {
     if (pedido.Id > 0) {
       return this.alterarPedido(pedido);
@@ -79,7 +73,5 @@ export class PedidosService {
   adicionarPedido(pedido: Pedido): Observable<Pedido> {
     return this.httpService.postObs(`pedidos/`, pedido);
   }
-
-
 
 }

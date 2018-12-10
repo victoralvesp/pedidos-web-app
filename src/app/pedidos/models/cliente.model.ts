@@ -1,4 +1,4 @@
 export class Cliente {
-  id: number;
-  nome: String;
+  Id: number;
+  Nome: String;
 }

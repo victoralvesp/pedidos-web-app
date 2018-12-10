@@ -1,8 +1,8 @@
 import { ValorMonetario } from './valor-monetario';
 
 export class Produto {
-  id: number;
-  nome: String;
-  precoSugerido: ValorMonetario;
-  multiplo?: number;
+  Id: number;
+  Nome: String;
+  PrecoSugerido: ValorMonetario;
+  Multiplo?: number;
 }

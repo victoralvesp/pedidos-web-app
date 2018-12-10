@@ -1,21 +1,21 @@
 import { ValorMonetario } from './valor-monetario';
 
 export class Pedido {
-  id: number;
-  itens: ItemDePedido[];
-  idCliente: Number;
+  Id: number;
+  Itens: ItemDePedido[];
+  IdCliente: Number;
 
   constructor() {
-    this.itens = [new ItemDePedido()];
+    this.Itens = [new ItemDePedido()];
   }
 }
 
 export class ItemDePedido {
-  id: number;
-  idProduto: number;
-  precoUnitario: ValorMonetario;
-  quantidade: number;
-  rentabilidade: Rentabilidade;
+  Id: number;
+  IdProduto: number;
+  PrecoUnitario: ValorMonetario;
+  Quantidade: number;
+  Rentabilidade: Rentabilidade;
 }
 
 export enum Rentabilidade {

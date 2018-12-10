@@ -1,10 +1,11 @@
 
 <div [formGroup]="itemForm">
   <div class="form-group col-xs-6">
+  <div class="grupo">
     <label>Produto</label>
     <ng-select  [items]="listaDeProdutos"
                 [loading]="loadingProdutos"
-                bindLabel="nome"
+                bindLabel="Nome"
                 [(ngModel)]="produtoSelecionado"
                 placeholder="Selecione o produto"
                 formControlName="produto">
@@ -18,41 +19,37 @@
         Produto é obrigatório
     </small>
   </div>
-  <!-- (after-if)="configuraChecagemDeRentabilidade()" -->
   <div class="grid-grupo-4">
-    <div [hidden]="!produtoSelecionado" class="grupo linha-1">
-      <label for="preco">Preço Unitário</label>
-      <div class="ui-grid-col-6">
-        <div class="ui-inputgroup">
-          <span class="ui-inputgroup-addon">R$</span>
-          <input currencyMask class="form-control" formControlName="precoUnitario"
-          placeholder="Preço unitário" [options]="{ prefix: ' ', thousands: '.', decimal: ',', allowNegative: 'false' }"
-          pInputText
-          class="balao"
-          id="preco"
-          #inputPreco>
-        </div>
-        <small [hidden]="itemForm.controls['precoUnitario'].valid || itemForm.controls['precoUnitario'].untouched" class="mensagem-alerta">
-          Preço unitário é obrigatório
-        </small>
+      <div [hidden]="!produtoSelecionado"  class="linha-1-container">
+          <div class="linha-1">
+              <div class="preco">
+                  <label for="preco">Preço Unitário</label>
+                  <div>
+                      <span class="">R$</span>
+                      <input currencyMask class="form-control" formControlName="precoUnitario"
+                            placeholder="Preço unitário" [options]="{ prefix: ' ', thousands: '.', decimal: ',', allowNegative: 'false' }"
+                            pInputText class="balao" id="preco" #inputPreco>
+                  </div>
+                  <small [hidden]="itemForm.controls['precoUnitario'].valid || itemForm.controls['precoUnitario'].untouched" class="mensagem-alerta">
+                  Preço unitário é obrigatório
+                  </small>
+              </div>
+              <div  class="quantidade">
+                  <label for="quantidade">Quantidade</label>
+                  <input type="number" id="quantidade" class="form-control balao" formControlName="quantidade">
+                  <small [hidden]="!(itemForm.errors && itemForm.errors['quantidadeInvalida']) || itemForm.controls['quantidade'].untouched" class="mensagem-alerta">
+                  {{ mensagemQuantidadeInvalida }}
+                  </small>
+              </div>
+          </div>
       </div>
-      <div class="grupo">
-        <label for="quantidade">Quantidade</label>
-        <input type="number" id="quantidade" class="form-control balao" formControlName="quantidade">
-        <small [hidden]="!(itemForm.errors && itemForm.errors['quantidadeInvalida']) || itemForm.controls['quantidade'].untouched" class="mensagem-alerta">
-          {{ mensagemQuantidadeInvalida }}
-        </small>
-      </div>
+      <div *ngIf="produtoSelecionado"  class="linha-2-container">
+          <div class="linha-2" *ngIf="itemForm.controls['precoUnitario'].valid && (rentabilidadeCarregada | async)">
+              <label for="rentabilidade">Rentabilidade</label>
+              <input type="text" disabled="true" id="rentabilidade" class="form-control balao" formControlName="rentabilidade">
+              <small [hidden]="itemForm.controls['rentabilidade'].valid" class="mensagem-alerta">
+                  Rentabilidade deve ser boa ou ótima
+              </small>
+          </div>
     </div>
-    <div *ngIf="produtoSelecionado" class="linha-2">
-      <div class="grupo"
-      *ngIf="itemForm.controls['precoUnitario'].valid && (rentabilidadeCarregada | async)">
-      <label for="rentabilidade">Rentabilidade</label>
-      <input type="text" disabled="true" id="rentabilidade" class="form-control balao" formControlName="rentabilidade">
-      <small [hidden]="itemForm.controls['rentabilidade'].valid" class="mensagem-alerta">
-        Rentabilidade deve ser boa ou ótima
-      </small>
-    </div>
-  </div>
-</div>
 </div>

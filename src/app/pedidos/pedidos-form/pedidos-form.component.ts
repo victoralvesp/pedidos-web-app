@@ -57,7 +57,7 @@ export class PedidosFormComponent implements OnInit, AfterContentChecked {
   }
 
   private checaEAtualizaFormulario() {
-    if (this.pedido.id > 0) {
+    if (this.pedido.Id > 0) {
       this.atualizaForm();
     }
   }
@@ -68,21 +68,21 @@ export class PedidosFormComponent implements OnInit, AfterContentChecked {
 
   atualizaForm(): void {
     this.pedidosForm.patchValue({
-      cliente: this.clienteSelecionado.id,
-      itens: this.pedido.itens.map(item => this.converteParaFormDeItem(item))
+      cliente: this.clienteSelecionado.Id,
+      itens: this.pedido.Itens.map(item => this.converteParaFormDeItem(item))
     });
   }
 
   private carregarListaDeClientes(clientes: Cliente[]): void {
     this.listaDeClientes = clientes;
-    if (this.pedido.idCliente) {
-      this.clienteSelecionado = clientes.find(cl => cl.id === this.pedido.idCliente);
+    if (this.pedido.IdCliente) {
+      this.clienteSelecionado = clientes.find(cl => cl.Id === this.pedido.IdCliente);
     }
   }
 
 
   adicionarItem() {
-    this.pedido.itens = [...this.pedido.itens, new ItemDePedido() ];
+    this.pedido.Itens = [...this.pedido.Itens, new ItemDePedido() ];
     const control = <FormArray>this.pedidosForm.controls['itens'];
     control.controls.push(this.criaFormItem());
     control.updateValueAndValidity();
@@ -101,8 +101,8 @@ export class PedidosFormComponent implements OnInit, AfterContentChecked {
   salvarPedido() {
     const pedidoValue = this.pedidosForm.value;
 
-    this.pedido.idCliente = pedidoValue.cliente;
-    this.pedido.itens = pedidoValue.itens.map(item =>  this.converteParaItem(item));
+    this.pedido.IdCliente = pedidoValue.cliente;
+    this.pedido.Itens = pedidoValue.itens.map(item =>  this.converteParaItem(item));
 
     this.salvando = true;
     this._pedidosService.salvarPedido(this.pedido).subscribe(() => {
@@ -115,22 +115,22 @@ export class PedidosFormComponent implements OnInit, AfterContentChecked {
 
   converteParaItem(itemFormValue: any): any {
     const item = new ItemDePedido();
-    item.id = itemFormValue.id;
-    item.idProduto = itemFormValue.produto;
-    item.precoUnitario = new ValorMonetario(itemFormValue.precoUnitario);
-    item.quantidade = itemFormValue.quantidade;
-    item.rentabilidade = itemFormValue.rentabilidade;
+    item.Id = itemFormValue.id;
+    item.IdProduto = itemFormValue.produto;
+    item.PrecoUnitario = new ValorMonetario(itemFormValue.precoUnitario);
+    item.Quantidade = itemFormValue.quantidade;
+    item.Rentabilidade = itemFormValue.rentabilidade;
 
     return item;
   }
 
   converteParaFormDeItem(item: ItemDePedido): any {
     return {
-      id: item.id,
-      idProduto: item.idProduto,
-      precoUnitario: item.precoUnitario.valor,
-      quantidade: item.quantidade,
-      rentabilidade: item.rentabilidade
+      id: item.Id,
+      idProduto: item.IdProduto,
+      precoUnitario: item.PrecoUnitario.Valor,
+      quantidade: item.Quantidade,
+      rentabilidade: item.Rentabilidade
     };
   }
 
